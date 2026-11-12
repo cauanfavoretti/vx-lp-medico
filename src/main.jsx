@@ -56,7 +56,7 @@ function Ticks({count,from,to,stroke,width}){
 function Metodo(){
  const [ref,reveal]=useReveal();const [active,setActive]=useState(0);
  useEffect(()=>{const id=setInterval(()=>setActive(a=>(a+1)%metodo.length),3600);return()=>clearInterval(id);},[]);
- return <section ref={ref} className={'method'+reveal} id="metodo" aria-labelledby="metodo-titulo"><div className="method-glow" aria-hidden="true"/><div className="wrap"><SectionHead center eyebrow="Método VX" id="metodo-titulo" title={<>3 etapas. <span>Resultado mensurável.</span></>}/>
+ return <section ref={ref} className={'method'+reveal} id="metodo" aria-label="Método VX"><div className="method-glow" aria-hidden="true"/><div className="wrap">
   <div className="method-wheel reveal" style={{'--i':2}}><div className="method-rings">
    <svg viewBox="0 0 540 540" className="spin" fill="none" aria-hidden="true"><circle cx="270" cy="270" r="155" stroke="rgba(255,138,61,0.28)" strokeWidth="1.5" strokeDasharray="8 12"/><Ticks count={24} from={155} to={167} width={2.5} stroke={i=>i%4===0?'rgba(255,107,26,0.55)':'rgba(255,138,61,0.4)'}/><circle cx="270" cy="270" r="114" stroke="rgba(255,138,61,0.14)" strokeWidth="1" strokeDasharray="4 8"/></svg>
    <svg viewBox="0 0 540 540" className="spin-rev" fill="none" aria-hidden="true"><circle cx="270" cy="270" r="70" stroke="rgba(59,135,255,0.32)" strokeWidth="1" strokeDasharray="5 7"/><Ticks count={14} from={70} to={78} width={2} stroke={()=>'rgba(59,135,255,0.42)'}/></svg>
