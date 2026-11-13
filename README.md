@@ -9,7 +9,7 @@ npm install
 npm run dev
 ```
 
-Build: `npm run build`. A hospedagem estática deve redirecionar `/obrigado` para `index.html`.
+Build: `npm run build`. O build também gera `dist/obrigado/index.html` (cópia do `index.html` com título próprio e `noindex`, feita pelo plugin em `vite.config.js`), então a página de agradecimento `/obrigado` abre em qualquer hospedagem estática, sem regra de redirecionamento.
 
 ## Configuração de lançamento
 

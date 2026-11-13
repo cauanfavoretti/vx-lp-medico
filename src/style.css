@@ -143,3 +143,17 @@ form>.button{min-height:56px;font-size:13px;padding:16px;text-align:left}input::
 @media(max-width:1050px) and (min-width:768px){.svc-card{padding:24px 20px}.svc-card h3{font-size:21px}}
 @media(max-width:760px){.method,.services{padding:60px 0}.proof+.method{padding-top:28px}.services-grid{margin-top:36px}.svc-card{padding:26px 22px}.sec-head p{font-size:15px}}
 @media(prefers-reduced-motion:reduce){.method-rings svg,.svc-ping:before{animation:none}}
+/* Página de agradecimento (/obrigado). */
+.thanks{min-height:calc(100svh - 90px);padding-top:22px;padding-bottom:80px}
+.thanks-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:70px;align-items:center;margin-top:60px}
+.thanks .success-icon{margin-bottom:26px}.thanks h1{max-width:650px;margin-top:20px}.thanks h1 span{color:var(--orange)}
+.thanks-copy>p{max-width:520px;font-size:15px;line-height:1.8;color:var(--muted);margin:24px 0 30px}
+.thanks-actions{display:flex;align-items:center;gap:26px;flex-wrap:wrap}.thanks .button{max-width:none;min-width:230px}
+.thanks-link{display:inline-flex;align-items:center;gap:8px;padding-bottom:4px;border-bottom:1px solid #4a3421;font-size:12px;font-weight:650;color:#d9d1ca;transition:color .2s,border-color .2s}.thanks-link:hover{color:var(--orange);border-color:var(--orange)}
+.thanks-steps{padding:28px 28px 12px;border:1px solid #69401e;border-radius:12px;background:linear-gradient(145deg,#231b16,#161412 70%)}
+.thanks-steps h2{display:flex;align-items:center;gap:8px;margin:0 0 6px;font-family:inherit;font-size:10px;font-weight:650;line-height:1.4;letter-spacing:1.6px;color:#dfb796}
+.thanks-steps ol{list-style:none;margin:0;padding:0}.thanks-steps li{display:flex;gap:16px;padding:18px 0;border-top:1px solid #30261f}.thanks-steps li:first-child{border-top:0}
+.thanks-steps b{flex:none;display:grid;place-items:center;width:30px;height:30px;border:1px solid var(--orange);border-radius:50%;color:var(--orange);font-size:12px}.thanks-steps li.is-done b{background:var(--orange);color:#111}
+.thanks-steps h3{margin:4px 0 7px;font-size:16px;font-weight:550;letter-spacing:0;color:#fff}.thanks-steps p{margin:0;font-size:13.5px;line-height:1.65;color:#aaa099}
+@media(max-width:900px){.thanks-grid{grid-template-columns:1fr;gap:40px;margin-top:34px}}
+@media(max-width:760px){.thanks{padding-top:12px;padding-bottom:50px}.thanks-copy>p{margin:20px 0 26px}.thanks .button{width:100%}.thanks-actions{gap:18px}.thanks-steps{padding:20px 20px 6px}}
