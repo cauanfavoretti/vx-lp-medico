@@ -167,6 +167,24 @@ form>.button{width:100%}
 .form-note{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:14px;font-size:11px;color:var(--text-3)}
 .error{margin-top:12px;font-size:13px;line-height:1.6;color:#B42318}
 
+/* Modal do calendário de agendamento (GHL), aberto depois do envio do formulário */
+html:has(.booking-modal[open]){overflow:hidden}
+.booking-modal{display:none;width:min(960px,calc(100vw - 32px));height:min(880px,calc(100dvh - 32px));max-width:none;max-height:none;padding:0;overflow:hidden;border:0;border-radius:var(--radius-lg);background:#fff;color:var(--text);box-shadow:var(--shadow-lg)}
+.booking-modal[open]{display:flex;flex-direction:column}
+.booking-modal::backdrop{background:rgb(14 14 16 / .72);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.booking-head{position:relative;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 22px 18px 26px;border-bottom:1px solid var(--line)}
+.booking-head:before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--grad-brand)}
+.booking-kicker{display:flex;align-items:center;gap:10px;font-size:10.5px;font-weight:700;letter-spacing:.24em;color:var(--brand-700)}
+.form-card .booking-modal h2{margin-top:8px;font-size:22px;line-height:1.2;letter-spacing:-.02em}
+.booking-close{display:grid;place-items:center;flex:none;width:42px;height:42px;border:1px solid var(--line-2);border-radius:50%;background:#fff;color:var(--ink);transition:background .2s,color .2s,border-color .2s}
+.booking-close:hover{border-color:var(--ink);background:var(--ink);color:var(--brand)}
+.booking-frame{display:block;flex:1;width:100%;min-height:0;border:0;background:#fff}
+@media(max-width:760px){
+  .booking-modal{width:100vw;height:100dvh;border-radius:0}
+  .booking-head{padding:16px 16px 14px 20px}
+  .form-card .booking-modal h2{font-size:19px}
+}
+
 /* Faixa de temas (ticker laranja) */
 .hero-bottom{position:relative;isolation:isolate;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;padding:20px 0;color:var(--ink);font-size:11px;font-weight:800;letter-spacing:.24em}
 .hero-bottom:before{content:'';position:absolute;z-index:-1;inset:0 calc(50% - 50vw);background:var(--brand)}
