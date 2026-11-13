@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createRoot } from 'react-dom/client';
-import { ArrowUpRight, ArrowRight, Check, LockKeyhole, Plus, Minus, Target, ChartNoAxesCombined, Workflow, MessageCircle, MoveUpRight, Play, UserRound, Building2, GraduationCap } from 'lucide-react';
-import { depoimentos } from './depoimentos.js';
+import { ArrowUpRight, ArrowRight, Check, LockKeyhole, Plus, Minus, Target, ChartNoAxesCombined, Workflow, MessageCircle, MoveUpRight, Play, UserRound, Building2, GraduationCap, ZoomIn, X, ArrowLeft } from 'lucide-react';
+import { depoimentos, prints } from './depoimentos.js';
 import './style.css';
 
 const env = import.meta.env;
@@ -32,9 +32,19 @@ function Depoimento({item}){
  function play(){document.querySelectorAll('.depo-media video').forEach(v=>{if(v!==video.current)v.pause()});video.current?.play();}
  return <figure className={'depo-card'+(pending?' is-pending':'')}><div className="depo-media">{pending?<div className="depo-pending"><span className="depo-play-icon"><Play size={18} fill="currentColor"/></span><small>VÍDEO PENDENTE</small></div>:<><video ref={video} src={item.poster?item.video:item.video+'#t=0.1'} poster={item.poster||undefined} preload={item.poster?'none':'metadata'} playsInline controls={started} onPlay={()=>setStarted(true)}/>{!started&&<button className="depo-play" onClick={play} aria-label={'Reproduzir depoimento'+(item.name?' de '+item.name:'')}><span className="depo-play-icon"><Play size={18} fill="currentColor"/></span></button>}</>}</div><div className="depo-body"><figcaption><strong>{item.name||'Nome do médico'}</strong><span>{item.specialty||'Especialidade'}</span></figcaption></div></figure>
 }
+function Print({item,onZoom}){
+ return <figure className="depo-card is-print"><button className={'depo-media depo-zoom'+(item.fit==='contain'?' is-contain':'')} onClick={()=>onZoom(item)} aria-label={'Ampliar print: '+item.caption}>{item.fit==='contain'&&<span className="depo-blur" style={{backgroundImage:`url(${item.src})`}} aria-hidden="true"/>}<img src={item.src} alt={item.alt} width={item.w} height={item.h} loading="lazy" decoding="async"/><span className="depo-tag">{item.tag}</span><span className="depo-zoom-icon" aria-hidden="true"><ZoomIn size={16}/></span></button><div className="depo-body"><figcaption><strong>{item.caption}</strong><span>{item.label}</span></figcaption></div></figure>
+}
 function Depoimentos(){
- if(!depoimentos.length)return null;
- return <section className="depo" id="depoimentos" aria-labelledby="depoimentos-titulo"><div className="wrap"><span className="eyebrow">DEPOIMENTOS</span><h2 id="depoimentos-titulo">Quem já deu o próximo passo <br/><span>conta como foi.</span></h2><p className="depo-lead">Médicos e gestores de clínicas falam sobre a experiência de estruturar o comercial junto com a VX.</p><div className="depo-track" tabIndex={0} role="group" aria-label="Depoimentos em vídeo">{depoimentos.map((item,i)=><Depoimento item={item} key={item.video||i}/>)}</div></div></section>
+ // Print ampliada em <dialog> nativo: Esc e clique fora fecham.
+ const [zoom,setZoom]=useState(null);const dialog=useRef(null);
+ useEffect(()=>{if(zoom&&!dialog.current?.open)dialog.current?.showModal();},[zoom]);
+ // Setas da faixa: só aparecem quando os cards não cabem na largura; cada clique avança um card.
+ const track=useRef(null);const [nav,setNav]=useState({overflow:false,start:true,end:false});
+ useEffect(()=>{const t=track.current;if(!t)return;const update=()=>setNav({overflow:t.scrollWidth>t.clientWidth+1,start:t.scrollLeft<=1,end:t.scrollLeft+t.clientWidth>=t.scrollWidth-1});update();t.addEventListener('scroll',update,{passive:true});const ro='ResizeObserver' in window?new ResizeObserver(update):null;ro?.observe(t);return()=>{t.removeEventListener('scroll',update);ro?.disconnect();};},[]);
+ function slide(dir){const t=track.current;const card=t?.querySelector('.depo-card');if(!card)return;const gap=parseFloat(getComputedStyle(t).columnGap)||0;t.scrollBy({left:dir*(card.getBoundingClientRect().width+gap),behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});}
+ if(!depoimentos.length&&!prints.length)return null;
+ return <section className="depo" id="depoimentos" aria-labelledby="depoimentos-titulo"><div className="wrap"><span className="eyebrow">DEPOIMENTOS</span><h2 id="depoimentos-titulo">Quem já deu o próximo passo <br/><span>conta como foi.</span></h2><p className="depo-lead">Médicos e gestores de clínicas falam sobre a experiência de estruturar o comercial junto com a VX.</p>{nav.overflow&&<div className="depo-nav"><button onClick={()=>slide(-1)} disabled={nav.start} aria-label="Depoimentos anteriores"><ArrowLeft size={17}/></button><button onClick={()=>slide(1)} disabled={nav.end} aria-label="Próximos depoimentos"><ArrowRight size={17}/></button></div>}<div className="depo-track" ref={track} tabIndex={0} role="group" aria-label="Depoimentos em vídeo e prints de conversas">{depoimentos.map((item,i)=><Depoimento item={item} key={item.video||i}/>)}{prints.map(item=><Print item={item} onZoom={setZoom} key={item.src}/>)}</div></div><dialog ref={dialog} className="depo-lightbox" aria-label="Print ampliada" onClose={()=>setZoom(null)} onClick={e=>{if(e.target===dialog.current)dialog.current.close()}}>{zoom&&<><img src={zoom.src} alt={zoom.alt} width={zoom.w} height={zoom.h}/><button className="depo-lightbox-close" onClick={()=>dialog.current?.close()} aria-label="Fechar"><X size={18}/></button></>}</dialog></section>
 }
 // Seções "Método VX" e "Serviços", portadas da LP institucional (VX LP/vx-landingpage-main) para JSX + CSS puro.
 // Revela os filhos .reveal quando a seção entra na tela. Sem JS ou com movimento reduzido, o conteúdo nasce visível.
